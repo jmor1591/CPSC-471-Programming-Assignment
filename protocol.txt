@@ -1,0 +1,68 @@
+File Transfer Protocol Documentation
+Overview
+This document describes the communication protocol used between the file transfer server (serv.py) and the client (cli.py). The protocol allows clients to upload and download files, list available files on the server, and handle various commands.
+
+Communication Flow
+The communication between the client and server occurs over a TCP socket connection. The client sends commands to the server, and the server responds with appropriate messages and data.
+
+Commands and Responses
+Connection Establishment
+
+Client: Initiates a connection to the server on port 2121.
+Server: Accepts the connection and is ready to handle commands.
+Listing Files (ls)
+
+Client Command: ls
+Server Response:
+Sends a newline-separated list of files in the server's current directory.
+If no files are present, the server responds with a message indicating that no files are available.
+Uploading a File (put <filename>)
+
+Client Command: put <filename>
+Server Response:
+If the file upload is initiated, the server sends a confirmation message indicating it is ready to receive the file.
+The client then establishes a data connection to send the file data.
+After receiving the file, the server responds with "UPLOAD SUCCESS" to confirm the successful upload.
+If the file does not exist on the client, the server responds with "FAILURE: File not found".
+Downloading a File (get <filename>)
+
+Client Command: get <filename>
+Server Response:
+If the requested file exists, the server sends "SUCCESS" and establishes a data connection on an ephemeral port.
+The client connects to the provided data port to receive the file data.
+After the file is sent, the server closes the data connection.
+If the file does not exist, the server responds with "FAILURE: File not found".
+Confirmation Messages
+
+After certain operations, the server may expect confirmation from the client:
+After listing files, the client must send "FILES LISTED".
+After downloading files, the client must send "FILE(S) RECEIVED" or "FILE(S) NOT RECEIVED" based on the success of the operation.
+After uploading files, the client may receive a confirmation message from the server.
+Invalid Commands
+
+Client Command: Any command not recognized by the server.
+Server Response: "ERROR: Invalid command" or a similar message indicating that the command is not recognized.
+Disconnection
+
+Client Command: quit
+Server Response: The server acknowledges the disconnection and closes the client socket.
+Error Handling
+The server handles errors such as file not found, invalid commands, and connection issues gracefully by sending appropriate error messages back to the client.
+Clients should implement retry mechanisms or user prompts for handling errors gracefully.
+Example Communication
+Example 1: Uploading a File
+Client: put test_file.txt
+Server: UPLOAD SUCCESS
+Client: (sends file data)
+Server: (receives file data)
+Server: UPLOAD SUCCESS
+Example 2: Downloading a File
+Client: get test_file.txt
+Server: SUCCESS
+Server: DATA_PORT <port_number> (client connects to this port)
+Client: (receives file data)
+Server: (closes data connection)
+Example 3: Listing Files
+Client: ls
+Server: (sends list of files)
+Client: FILES LISTED

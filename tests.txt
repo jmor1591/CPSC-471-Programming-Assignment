@@ -1,0 +1,58 @@
+Test Cases for File Transfer System
+Basic Functionality Tests
+
+Test 1: Start the server (serv.py) and ensure it is listening on the correct port (2121).
+Test 2: Start the client (cli.py) and verify that it connects to the server successfully.
+File Upload (PUT) Tests
+
+Test 3: Upload a valid file from the client to the server.
+Check that the file exists on the server after the upload.
+Test 4: Attempt to upload a non-existent file from the client to the server.
+Verify that the server responds with an appropriate error message.
+Test 5: Upload a file that is already present on the server.
+Verify that the server replaces the existing file or handles it according to your design.
+Test 6: Upload a large file (e.g., > 10MB) from the client to the server.
+Ensure that the upload completes successfully and the file is intact on the server.
+Test 7: Upload multiple files in quick succession from the client to the server.
+Verify that all files are uploaded successfully and are accessible on the server.
+File Download (GET) Tests
+
+Test 8: Download a valid file from the server to the client.
+Check that the file exists on the client after the download.
+Test 9: Attempt to download a non-existent file from the server.
+Verify that the server responds with an appropriate error message.
+Test 10: Download a file that is currently being uploaded by another client.
+Verify that the download is handled correctly (e.g., file is not corrupted).
+File Listing (LS) Tests
+
+Test 11: List files on the server from the client.
+Verify that the list includes all files currently on the server.
+Test 12: List files when the server directory is empty.
+Verify that the client receives an appropriate message indicating no files are available.
+Error Handling Tests
+
+Test 13: Disconnect the client during a file upload and verify how the server handles the disconnection.
+Test 14: Attempt to send an invalid command from the client to the server.
+Verify that the server responds with an appropriate error message.
+Test 15: Test the server's response when the client sends a command after disconnecting.
+Concurrency Tests
+
+Test 16: Start multiple clients simultaneously and perform file uploads and downloads.
+Verify that the server can handle multiple connections without errors.
+Test 17: Start a client upload while another client is downloading a file.
+Verify that both operations complete successfully and the files remain intact.
+Cleanup Tests
+
+Test 18: After file uploads, ensure that files can be deleted from the server.
+Verify that the file is removed from the server directory.
+Test 19: Ensure that the client-side files are removed after successful uploads.
+Test 20: Restart the server and ensure that previously uploaded files are still present.
+Performance Tests
+
+Test 21: Measure the time taken to upload and download files of varying sizes (e.g., small, medium, large).
+Test 22: Check the server's performance under high load (e.g., multiple clients uploading/downloading simultaneously).
+Boundary Tests
+
+Test 23: Upload a file with the maximum allowed filename length.
+Test 24: Upload files with special characters in their names.
+Test 25: Test the behavior when the server runs out of disk space during an upload.
